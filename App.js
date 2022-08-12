@@ -21,9 +21,9 @@ export default function App() {
   }, []);
 
   if (CameraPermission === undefined) {
-    return <Text>Requesting permissions...</Text>
+    return <Text>Allow permission to gain access to the Camera.</Text>
   } else if (!CameraPermission) {
-    return <Text>Permission for camera not granted. Please change this in settings.</Text>
+    return <Text>Ypu didn't allow permission to gain camera access. Please change this in settings.</Text>
   }
 
   let takePic = async () => {
