@@ -4,10 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 import { Camera } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
+import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+import * as Location from 'expo-location';
 
 let apiKey = 'YOUR_API_KEY';
 
-import * as Location from 'expo-location';
 
 export default function App() {
 
@@ -40,32 +43,32 @@ export default function App() {
     };
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
-    
-  let { status } = await Location.requestPermissionsAsync();
-  if (status !== 'granted') {
-    setErrorMsg('Permission to access location was denied');
-  }
 
-  Location.setGoogleApiKey(apiKey);
+    let { status } = await Location.requestPermissionsAsync();
+    if (status !== 'granted') {
+      setErrorMsg('Permission to access location was denied');
+    }
 
-  console.log(status);
+    Location.setGoogleApiKey(apiKey);
 
-  let { coords } = await Location.getCurrentPositionAsync();
+    console.log(status);
 
-  setLocation(coords);
+    let { coords } = await Location.getCurrentPositionAsync();
 
-  console.log(coords);
+    setLocation(coords);
 
-  if (coords) {
-    let { longitude, latitude } = coords;
+    console.log(coords);
 
-    let regionName = await Location.reverseGeocodeAsync({
-      longitude,
-      latitude,
-    });
-    setAddress(regionName[0]);
-    console.log(regionName, 'nothing');
-  }
+    if (coords) {
+      let { longitude, latitude } = coords;
+
+      let regionName = await Location.reverseGeocodeAsync({
+        longitude,
+        latitude,
+      });
+      setAddress(regionName[0]);
+      console.log(regionName, 'nothing');
+    }
   };
 
 
@@ -86,15 +89,20 @@ export default function App() {
       <SafeAreaView style={styles.container}>
         <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
         <Text style={styles.big}>
-        {!location
-          ? 'Waiting'
-          : `${JSON.stringify(address?.['subregion'])}
-             ${JSON.stringify(address?.['city'])}`
-             }
-      </Text>
+          {!location
+            ? 'Waiting'
+            : `${JSON.stringify(address?.['subregion'])}
+            ${JSON.stringify(address?.['city'])}
+             ${JSON.stringify(address?.['district'])}`
+          }
+        </Text>
         {MediaLPermission ? <Button title="Save" onPress={savePhoto} color='green' /> : undefined}
-        <Button title="Share" onPress={sharePic} color='gray' />
-        <Button title="Discard" onPress={() => setPhoto(undefined)} color='red' />
+        <TouchableOpacity title="Share" onPress={sharePic} color='gray' >
+          <Entypo name="share" size={24} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity title="Discard" onPress={() => setPhoto(undefined)} color='red'>
+          <MaterialIcons name="cancel" size={24} color="black" />
+        </TouchableOpacity>
       </SafeAreaView>
     );
   }
@@ -102,7 +110,9 @@ export default function App() {
   return (
     <Camera style={styles.container} ref={cameraRef}>
       <View style={styles.btncontainer}>
-        <TouchableOpacity title="Take Pic" onPress={takePic} />
+        <TouchableOpacity title="Take Pic" onPress={takePic} >
+          <AntDesign name="camera" size={150} color="black" />
+        </TouchableOpacity>
       </View>
       <StatusBar style="auto" />
     </Camera>
@@ -116,8 +126,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   btncontainer: {
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
     alignSelf: 'center',
+    alignItems: "center",
+    padding: 10,
+    top: 220,
   },
   preview: {
     flex: 1,
