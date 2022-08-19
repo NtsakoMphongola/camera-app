@@ -44,7 +44,7 @@ export default function App() {
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
 
-    let { status } = await Location.requestPermissionsAsync();
+    let { status } = await Location.requestBackgroundPermissionsAsync();
     if (status !== 'granted') {
       setErrorMsg('Permission to access location was denied');
     }
