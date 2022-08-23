@@ -9,7 +9,7 @@ import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 
-let apiKey = 'YOUR_API_KEY';
+let apiKey = 'AIzaSyCw0XA9ujDbO0RwJAIVC4pelY7edS9xltQ';
 
 
 export default function App() {
