@@ -96,12 +96,16 @@ export default function App() {
              ${JSON.stringify(address?.['district'])}`
           }
         </Text>
-        {MediaLPermission ? <Button title="Save" onPress={savePhoto} color='green' /> : undefined}
+        {MediaLPermission ? 
+        <TouchableOpacity title="Save" onPress={savePhoto} color='green'>
+          <AntDesign name="save" size={35} color="black" />
+        </TouchableOpacity>
+         : undefined}
         <TouchableOpacity title="Share" onPress={sharePic} color='gray' >
-          <Entypo name="share" size={24} color="black" />
+          <Entypo name="share" size={35} color="black" />
         </TouchableOpacity>
         <TouchableOpacity title="Discard" onPress={() => setPhoto(undefined)} color='red'>
-          <MaterialIcons name="cancel" size={24} color="black" />
+          <MaterialIcons name="cancel" size={35} color="black" />
         </TouchableOpacity>
       </SafeAreaView>
     );
@@ -123,7 +127,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   btncontainer: {
     // backgroundColor: 'red',
